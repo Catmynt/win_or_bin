@@ -1,27 +1,33 @@
 const imageContainer = document.querySelector('#image-container');
 
 let raceData, raceNames;
+let index = 0;
 
 const init = async () => {
+
     // Fetch Data
     raceData = await getRaceData();
     raceNames = Object.keys(raceData).sort();
-
-    // Populate the Image-Container with First Race's Cards
-    await populateCards(raceNames[0]);
-
-    // Add Swipe Functionality to Cards
-    await initCards();
 
     // Win Button
 
     // Bin Button
 
     // Swap Button
-    const switch_btn = document.querySelector("#swap_btn");
-    switch_btn.addEventListener("click", cycle);
+    const swap_btn = document.querySelector("#swap_btn");
+    swap_btn.addEventListener("click", cycle);
+
+    await doCards();
 
     console.log("Setup should be complete");
+}
+
+const doCards = async () => {
+    // Populate the Image-Container with First Race's Cards
+    await populateCards(raceNames[index++]);
+
+    // Add Swipe Functionality to Cards
+    await initCards();
 }
 
 const getRaceData = async () => {
@@ -36,10 +42,21 @@ const populateCards = async (raceName) => {
     const container = document.querySelector("#image-container")
     const imgs = raceData[raceName]
 
-    let content = ""
-    imgs.forEach(img => content += `<img src="races_pics/${raceName}/${img}" class="image-card">`)
+    imgs.forEach(img => {
+        const imgElement = document.createElement("img");
 
-    container.setHTML(content);
+        const path = `races_pics/${raceName}/${img}`
+        imgElement.classList.add("image-card");
+        imgElement.src = path;
+
+        imgElement.onload = function () {
+            const rgb = getAverageColour(imgElement);
+            const rgbString = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            imgElement.style.backgroundColor = imgElement.style.borderColor = rgbString;
+        }
+
+        container.appendChild(imgElement);
+    })
 }
 
 const initCards = async () => {
@@ -96,6 +113,7 @@ const addSwipeListeners = async (imageCards) => {
             setTimeout(() => {
                 currentCard.parentNode.setHTML("");
                 currentCard = null;
+                doCards();
             }, 300);
         } else if (diffX < -75) {
             // Swipe left
@@ -107,6 +125,7 @@ const addSwipeListeners = async (imageCards) => {
             setTimeout(() => {
                 currentCard.parentNode.setHTML("");
                 currentCard = null;
+                doCards();
             }, 300);
         } else {
             currentCard.style.transform = '';
@@ -120,12 +139,12 @@ const addSwipeListeners = async (imageCards) => {
 function cycle() {
     this.classList.add("disabled"); // disable button during swap
 
-    const container = document.querySelector("#image-container")
+    console.log(imageContainer.childNodes)
 
-    container.childNodes.forEach(card => {
+    imageContainer.childNodes.forEach(card => {
         // Swap Cards (add animation later)
         const zIndex = card.style.zIndex;
-        card.style.zIndex = zIndex > 1 ? zIndex - 1 : container.childNodes.length;
+        card.style.zIndex = zIndex > 1 ? zIndex - 1 : imageContainer.childNodes.length;
         card.style.opacity = 100 / card.style.zIndex;
     })
 
@@ -136,6 +155,34 @@ function cycle() {
     }, 1000)
 }
 
+function getAverageColour(img) {
+    // Returns an RGB value of the average colour of the img
+    // console.log(img)
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    ctx.drawImage(img, 0, 0);
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let data = imageData.data;
+
+    let r = 0;
+    let g = 0;
+    let b = 0;
+
+    for (let i = 0; i < data.length; i += 4) {
+        r += data[i];
+        g += data[i + 1];
+        b += data[i + 2];
+    }
+    r = ~~(r / (data.length / 4));
+    g = ~~(g / (data.length / 4));
+    b = ~~(b / (data.length / 4));
+
+    return { r: r, g: g, b: b };
+}
 
 
 

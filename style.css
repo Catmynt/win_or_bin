@@ -9,7 +9,7 @@ body {
     background-color: #01161E;
 }
 
-/* SoP Styling */
+/* WoB Styling */
 button {
     font-size: larger;
 }
@@ -20,7 +20,6 @@ button {
 
 /* Character Cards */
 .image-card {
-    /* background-color: pink; */
     position: absolute;
     width: inherit;
     height: inherit;
@@ -28,10 +27,6 @@ button {
     max-height: 40dvw;
     transition: transform 0.3s ease-in-out, opacity 0.3s linear;
     border-radius: 50px;
-    border: 5px solid #FFFAFB;
-    border-top-width: 20px;
-    border-bottom-width: 20px;
-    background-color: #FFFAFB;;
+    border: 5px solid #124559;
+    border-width: 20px 0 20px 0;
 }
-
-/* Testing */
