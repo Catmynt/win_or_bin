@@ -10,7 +10,6 @@ Goals:
 V0.1
 Many features still to be added, including
 - Win/Bin Button Functionality
-- Switching to next race after a decision has been made on the current one
 - A back button to return to the previous race for reconsideration
 - Support for multiple images of a single race, and an animation to switch between them.
 - Mobile Support
