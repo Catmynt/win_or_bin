@@ -44,6 +44,7 @@ const populateCards = async (raceName) => {
 
     imgs.forEach(img => {
         const imgElement = document.createElement("img");
+        imgElement.style.display = "none";
 
         const path = `races_pics/${raceName}/${img}`
         imgElement.classList.add("image-card");
@@ -56,7 +57,16 @@ const populateCards = async (raceName) => {
         }
 
         container.appendChild(imgElement);
+
+        // Hide Cards until Fully Loaded & Styled
+        imgElement.addEventListener("load", onLoad)
     })
+}
+
+const onLoad = function () {
+    this.style.display = "inherit";
+    this.removeEventListener("load", onLoad);
+    console.log("removed listener")
 }
 
 const initCards = async () => {
