@@ -30,3 +30,7 @@ button {
     border: 5px solid #124559;
     border-width: 20px 0 20px 0;
 }
+
+#image-container {
+    transition: opacity .3s;
+}

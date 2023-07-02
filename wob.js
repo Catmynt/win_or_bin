@@ -23,6 +23,7 @@ const init = async () => {
 }
 
 const doCards = async () => {
+    imageContainer.style.opacity = 0;
     // Populate the Image-Container with First Race's Cards
     await populateCards(raceNames[index++]);
 
@@ -66,7 +67,7 @@ const populateCards = async (raceName) => {
 const onLoad = function () {
     this.style.display = "inherit";
     this.removeEventListener("load", onLoad);
-    console.log("removed listener")
+    imageContainer.style.opacity = 1;
 }
 
 const initCards = async () => {
@@ -74,7 +75,7 @@ const initCards = async () => {
     for (let i = 0; i < imageCards.length; i++) {
         // Set up Card Z-index for overlapping (possibly not necessary in future implementation)
         imageCards[i].style.zIndex = imageCards.length - i;
-        imageCards[i].style.opacity = 100 / imageCards[i].style.zIndex;
+        // imageCards[i].style.opacity = imageCards[i].style.zIndex - i;
     }
     await addSwipeListeners(imageCards);
 }
@@ -117,7 +118,7 @@ const addSwipeListeners = async (imageCards) => {
             // Swipe right
             imageCards.forEach(card => {
                 card.style.transform = 'translateX(150%) rotate(10deg)';
-                card.style.opacity = '0';
+                imageContainer.style.opacity = 0;
             })
 
             setTimeout(() => {
@@ -129,7 +130,7 @@ const addSwipeListeners = async (imageCards) => {
             // Swipe left
             imageCards.forEach(card => {
                 card.style.transform = 'translateX(-150%) rotate(-10deg)';
-                card.style.opacity = '0';
+                imageContainer.style.opacity = 0;
             })
 
             setTimeout(() => {
@@ -167,7 +168,6 @@ function cycle() {
 
 function getAverageColour(img) {
     // Returns an RGB value of the average colour of the img
-    // console.log(img)
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = img.naturalWidth;
