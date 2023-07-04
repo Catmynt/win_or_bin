@@ -92,8 +92,10 @@ const addSwipeListeners = async (imageCards) => {
 
     function startSwipe(e) {
         e.preventDefault(); // Prevent default browser behavior (ghost image dragging / text highlighting)
+
         currentCard = this;
         initialX = e.clientX || e.touches[0].clientX;
+        console.log(`startSwipe initialX: ${initialX}`)
         document.addEventListener('mousemove', swipe);
         document.addEventListener('touchmove', swipe);
         document.addEventListener('mouseup', endSwipe);
@@ -102,6 +104,7 @@ const addSwipeListeners = async (imageCards) => {
 
     function swipe(e) {
         if (!initialX) return;
+
         const currentX = e.clientX || e.touches[0].clientX;
         const diffX = currentX - initialX;
         const translateX = Math.max(-100, Math.min(100, diffX));
@@ -110,9 +113,11 @@ const addSwipeListeners = async (imageCards) => {
 
     function endSwipe(e) {
         if (!initialX) return;
-        const finalX = e.clientX || initialX;
+        console.log(e)
+        let finalX = e.type === "touchend" ? e.changedTouches[0].clientX : e.clientX;
+        finalX = finalX || initialX; // null protection
+
         const diffX = finalX - initialX;
-        console.log("Ending swipe...")
 
         if (diffX > 75) {
             // Swipe right

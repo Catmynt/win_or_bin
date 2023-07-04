@@ -23,8 +23,8 @@ button {
     position: absolute;
     width: inherit;
     height: inherit;
-    max-width: 30dvw;
-    max-height: 40dvw;
+    max-width: 30vw;
+    max-height: 45vw;
     transition: transform 0.3s ease-in-out, opacity 0.3s linear;
     border-radius: 50px;
     border: 5px solid #124559;
@@ -33,4 +33,11 @@ button {
 
 #image-container {
     transition: opacity .3s;
+}
+
+@media (max-width: 576px) {
+    .image-card {
+        max-width: 100%;
+        max-height: fit-content;
+    }
 }
