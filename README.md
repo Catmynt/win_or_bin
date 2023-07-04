@@ -13,3 +13,4 @@ Many features still to be added, including
 - A back button to return to the previous race for reconsideration
 - Support for multiple images of a single race, and an animation to switch between them.
 - Mobile Support
+— Support for race information overlaid on each image.
