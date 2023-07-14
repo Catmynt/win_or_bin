@@ -44,20 +44,35 @@ const populateCards = async (raceName) => {
     const imgs = raceData[raceName]
 
     imgs.forEach(img => {
-        const imgElement = document.createElement("img");
-        imgElement.style.display = "none";
+        // Container for Card + Info
+        const raceBlock = document.createElement("div");
+        raceBlock.classList.add("race-block", "col-12", "justify-content-center");
 
+        // Race Name Title
+        const raceTitle = document.createElement("p");
+        raceTitle.textContent = raceName;
+        raceTitle.style.zIndex = 2;
+        raceTitle.classList.add("race-title");
+
+        // Image Itself
+        const imgElement = document.createElement("img");
+        // imgElement.style.display = "none";
+        raceBlock.style.display = "none";
         const path = `races_pics/${raceName}/${img}`
         imgElement.classList.add("image-card");
         imgElement.src = path;
 
+        // Fancy Background / Border Colouring
         imgElement.onload = function () {
             const rgb = getAverageColour(imgElement);
             const rgbString = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
             imgElement.style.backgroundColor = imgElement.style.borderColor = rgbString;
         }
 
-        container.appendChild(imgElement);
+        // Add Elements to Correct Places
+        raceBlock.appendChild(imgElement);
+        raceBlock.appendChild(raceTitle);
+        container.appendChild(raceBlock);
 
         // Hide Cards until Fully Loaded & Styled
         imgElement.addEventListener("load", onLoad)
@@ -66,18 +81,20 @@ const populateCards = async (raceName) => {
 
 const onLoad = function () {
     this.style.display = "inherit";
+    this.parentNode.style.display = "inherit";
     this.removeEventListener("load", onLoad);
     imageContainer.style.opacity = 1;
 }
 
 const initCards = async () => {
-    const imageCards = document.querySelectorAll('.image-card');
-    for (let i = 0; i < imageCards.length; i++) {
+    // const imageCards = document.querySelectorAll('.image-card');
+    const raceBlocks = document.querySelectorAll('.race-block');
+    for (let i = 0; i < raceBlocks.length; i++) {
         // Set up Card Z-index for overlapping (possibly not necessary in future implementation)
-        imageCards[i].style.zIndex = imageCards.length - i;
-        // imageCards[i].style.opacity = imageCards[i].style.zIndex - i;
+        raceBlocks[i].style.zIndex = raceBlocks.length - i;
+        if (i != 0) { raceBlocks[i].style.opacity = 0; }
     }
-    await addSwipeListeners(imageCards);
+    await addSwipeListeners(raceBlocks);
 }
 
 const addSwipeListeners = async (imageCards) => {
@@ -95,7 +112,7 @@ const addSwipeListeners = async (imageCards) => {
 
         currentCard = this;
         initialX = e.clientX || e.touches[0].clientX;
-        console.log(`startSwipe initialX: ${initialX}`)
+        // console.log(`startSwipe initialX: ${initialX}`)
         document.addEventListener('mousemove', swipe);
         document.addEventListener('touchmove', swipe);
         document.addEventListener('mouseup', endSwipe);
@@ -104,7 +121,6 @@ const addSwipeListeners = async (imageCards) => {
 
     function swipe(e) {
         if (!initialX) return;
-
         const currentX = e.clientX || e.touches[0].clientX;
         const diffX = currentX - initialX;
         const translateX = Math.max(-100, Math.min(100, diffX));
@@ -113,7 +129,6 @@ const addSwipeListeners = async (imageCards) => {
 
     function endSwipe(e) {
         if (!initialX) return;
-        console.log(e)
         let finalX = e.type === "touchend" ? e.changedTouches[0].clientX : e.clientX;
         finalX = finalX || initialX; // null protection
 
@@ -127,7 +142,7 @@ const addSwipeListeners = async (imageCards) => {
             })
 
             setTimeout(() => {
-                currentCard.parentNode.setHTML("");
+                currentCard.parentNode.innerHTML = "";
                 currentCard = null;
                 doCards();
             }, 300);
@@ -139,7 +154,7 @@ const addSwipeListeners = async (imageCards) => {
             })
 
             setTimeout(() => {
-                currentCard.parentNode.setHTML("");
+                currentCard.parentNode.innerHTML = "";
                 currentCard = null;
                 doCards();
             }, 300);
@@ -155,13 +170,13 @@ const addSwipeListeners = async (imageCards) => {
 function cycle() {
     this.classList.add("disabled"); // disable button during swap
 
-    console.log(imageContainer.childNodes)
+    const children = imageContainer.childNodes;
 
-    imageContainer.childNodes.forEach(card => {
+    children.forEach(card => {
         // Swap Cards (add animation later)
-        const zIndex = card.style.zIndex;
-        card.style.zIndex = zIndex > 1 ? zIndex - 1 : imageContainer.childNodes.length;
-        card.style.opacity = 100 / card.style.zIndex;
+        const zIndex = parseInt(card.style.zIndex);
+        card.style.zIndex = zIndex < children.length ? zIndex + 1 : 1;
+        card.style.opacity = card.style.zIndex < children.length ? 0 : 1;
     })
 
     // Reenable Button After Swap

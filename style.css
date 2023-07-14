@@ -21,14 +21,24 @@ button {
 /* Character Cards */
 .image-card {
     position: absolute;
-    width: inherit;
-    height: inherit;
+    max-width: inherit;
+    max-height: inherit;
+
+    border-radius: 50px;
+    border: 10px solid #124559;
+}
+
+.race-block {
+    transition: transform 0.3s ease-in-out, opacity 0.3s linear;
     max-width: 30vw;
     max-height: 45vw;
-    transition: transform 0.3s ease-in-out, opacity 0.3s linear;
-    border-radius: 50px;
-    border: 5px solid #124559;
-    border-width: 20px 0 20px 0;
+}
+
+.race-title {
+    font-size: 2em;
+    /* background-color: lime; */
+    position: absolute;
+
 }
 
 #image-container {
