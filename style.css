@@ -20,7 +20,7 @@ button {
 
 /* Character Cards */
 .image-card {
-    position: absolute;
+    /* position: absolute; */
     max-width: inherit;
     max-height: inherit;
 
@@ -32,13 +32,24 @@ button {
     transition: transform 0.3s ease-in-out, opacity 0.3s linear;
     max-width: 30vw;
     max-height: 45vw;
+
+    position: absolute;
+    overflow: hidden;
 }
 
 .race-title {
     font-size: 2em;
-    /* background-color: lime; */
+    background-color: rgba(0, 0, 0, .33);
     position: absolute;
+    bottom: 0;
+    left: 20px;
+    padding: 0 10px 0 10px;
+    border-radius: 50px;
+    /* Standard syntax */
+    user-select: none;
 
+    /* Safari */
+    -webkit-user-select: none;
 }
 
 #image-container {
