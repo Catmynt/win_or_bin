@@ -31,7 +31,7 @@ button {
 .race-block {
     transition: transform 0.3s ease-in-out, opacity 0.3s linear;
     max-width: 30vw;
-    max-height: 70vh;
+    max-height: 75vh;
 
     position: absolute;
     overflow: hidden;
@@ -42,19 +42,26 @@ button {
     background-color: rgba(0, 0, 0, .33);
     position: absolute;
     bottom: 0;
-    /* left: 20px; */
     padding: 0 10px 0 10px;
     border-radius: 50px;
-    /* Standard syntax */
-    user-select: none;
 
-    /* Safari */
+    /* Disable Text Selection (Generic & Safari, respectfully) */
+    user-select: none;
     -webkit-user-select: none;
 }
 
 #image-container {
     transition: opacity .3s;
 }
+
+
+.race-names {
+    font-weight: 200;
+    font-size: larger;
+    opacity: 0;
+    transition: opacity .15s;
+}
+
 
 @media (max-width: 576px) {
     .race-block {

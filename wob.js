@@ -141,9 +141,18 @@ const addSwipeListeners = async (imageCards) => {
                 imageContainer.style.opacity = 0;
             })
 
+            // Add Race to 'Win' list
+            const winList = document.querySelector("#win_list");
+            const raceToAdd = document.createElement('p')
+            raceToAdd.classList.add("race-names");
+            raceToAdd.textContent = this.querySelector(".race-title").textContent;
+            winList.appendChild(raceToAdd);
+
+
             setTimeout(() => {
                 currentCard.parentNode.innerHTML = "";
                 currentCard = null;
+                raceToAdd.style.opacity = 1;
                 doCards();
             }, 300);
         } else if (diffX < -75) {
@@ -153,9 +162,17 @@ const addSwipeListeners = async (imageCards) => {
                 imageContainer.style.opacity = 0;
             })
 
+            // Add Race to 'Bin' list
+            const binList = document.querySelector("#bin_list");
+            const raceToAdd = document.createElement('p')
+            raceToAdd.classList.add("race-names");
+            raceToAdd.textContent = this.querySelector(".race-title").textContent;
+            binList.appendChild(raceToAdd);
+
             setTimeout(() => {
                 currentCard.parentNode.innerHTML = "";
                 currentCard = null;
+                raceToAdd.style.opacity = 1;
                 doCards();
             }, 300);
         } else {
