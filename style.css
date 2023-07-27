@@ -31,7 +31,7 @@ button {
 .race-block {
     transition: transform 0.3s ease-in-out, opacity 0.3s linear;
     max-width: 30vw;
-    max-height: 45vw;
+    max-height: 70vh;
 
     position: absolute;
     overflow: hidden;
@@ -42,7 +42,7 @@ button {
     background-color: rgba(0, 0, 0, .33);
     position: absolute;
     bottom: 0;
-    left: 20px;
+    /* left: 20px; */
     padding: 0 10px 0 10px;
     border-radius: 50px;
     /* Standard syntax */
@@ -59,6 +59,6 @@ button {
 @media (max-width: 576px) {
     .race-block {
         max-width: 100%;
-        max-height: fit-content;
+        /* max-height: fit-content; */
     }
 }
