@@ -57,7 +57,7 @@ button {
 }
 
 @media (max-width: 576px) {
-    .image-card {
+    .race-block {
         max-width: 100%;
         max-height: fit-content;
     }
