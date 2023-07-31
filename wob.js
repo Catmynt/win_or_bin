@@ -3,6 +3,8 @@ const imageContainer = document.querySelector('#image-container');
 let raceData, raceNames, currentCard;
 let index = 0;
 
+const buttonTimeoutDuration = 500;
+
 const init = async () => {
 
     // Fetch Data
@@ -45,6 +47,9 @@ const getRaceData = async () => {
 const populateCards = async (raceName) => {
     // Adds Cards from Next Race in List to image-container
     const container = document.querySelector("#image-container")
+
+    console.log(`this is the race name: ${raceName}`)
+
     const imgs = raceData[raceName]
 
     imgs.forEach(img => {
@@ -149,11 +154,9 @@ const addSwipeListeners = async (imageCards) => {
         if (diffX > 75) {
             // Swipe right
             swipeRight();
-
         } else if (diffX < -75) {
             // Swipe left
             swipeLeft();
-
         } else {
             currentCard.style.transform = '';
             currentCard = null;
@@ -162,9 +165,26 @@ const addSwipeListeners = async (imageCards) => {
     }
 }
 
+function disableButtons() {
+    const buttons = document.querySelectorAll(".button_set .btn");
+
+    // Disable Buttons
+    buttons.forEach(btn => {
+        btn.classList.add("disabled")
+    })
+
+    // Reenable Buttons
+    setTimeout(() => {
+        // Skip swap button, since it has more complicated logic for activation
+        buttons[0].classList.remove("disabled");
+        buttons[2].classList.remove("disabled");
+    }, buttonTimeoutDuration)
+}
+
+
 // Button Stuff
 function cycle() {
-    this.classList.add("disabled"); // disable button during swap
+    this.classList.add("disabled")
 
     const children = imageContainer.childNodes;
 
@@ -175,14 +195,15 @@ function cycle() {
         card.style.opacity = card.style.zIndex < children.length ? 0 : 1;
     })
 
-    // Reenable Button After Swap
+    // Reenable Buttons
     setTimeout(() => {
         this.classList.remove("disabled");
-
-    }, 1000)
+    }, buttonTimeoutDuration)
 }
 
 function swipeRight() {
+    disableButtons();
+
     document.querySelectorAll('.race-block').forEach(block => {
         block.style.transform = 'translateX(150%) rotate(10deg)';
         imageContainer.style.opacity = 0;
@@ -205,6 +226,8 @@ function swipeRight() {
 }
 
 function swipeLeft() {
+    disableButtons();
+
     document.querySelectorAll('.race-block').forEach(block => {
         block.style.transform = 'translateX(-150%) rotate(-10deg)';
         imageContainer.style.opacity = 0;
