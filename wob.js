@@ -1,6 +1,6 @@
 const imageContainer = document.querySelector('#image-container');
 
-let raceData, raceNames;
+let raceData, raceNames, currentCard;
 let index = 0;
 
 const init = async () => {
@@ -10,8 +10,12 @@ const init = async () => {
     raceNames = Object.keys(raceData).sort();
 
     // Win Button
+    const win_btn = document.querySelector("#win_btn")
+    win_btn.addEventListener("click", swipeRight);
 
     // Bin Button
+    const bin_btn = document.querySelector("#bin_btn")
+    bin_btn.addEventListener("click", swipeLeft);
 
     // Swap Button
     const swap_btn = document.querySelector("#swap_btn");
@@ -87,19 +91,27 @@ const onLoad = function () {
 }
 
 const initCards = async () => {
-    // const imageCards = document.querySelectorAll('.image-card');
     const raceBlocks = document.querySelectorAll('.race-block');
     for (let i = 0; i < raceBlocks.length; i++) {
         // Set up Card Z-index for overlapping (possibly not necessary in future implementation)
         raceBlocks[i].style.zIndex = raceBlocks.length - i;
         if (i != 0) { raceBlocks[i].style.opacity = 0; }
     }
+
+    // Disable Swap Button if Only 1 Image Available for Race
+    if (raceBlocks.length < 2) {
+        document.querySelector("#swap_btn").classList.add("disabled")
+    }
+    else {
+        document.querySelector("#swap_btn").classList.remove("disabled")
+    }
+
     await addSwipeListeners(raceBlocks);
 }
 
 const addSwipeListeners = async (imageCards) => {
     let initialX = null;
-    let currentCard = null;
+    currentCard = null;
 
     for (let i = 0; i < imageCards.length; i++) {
         const card = imageCards[i];
@@ -136,45 +148,12 @@ const addSwipeListeners = async (imageCards) => {
 
         if (diffX > 75) {
             // Swipe right
-            imageCards.forEach(card => {
-                card.style.transform = 'translateX(150%) rotate(10deg)';
-                imageContainer.style.opacity = 0;
-            })
+            swipeRight();
 
-            // Add Race to 'Win' list
-            const winList = document.querySelector("#win_list");
-            const raceToAdd = document.createElement('p')
-            raceToAdd.classList.add("race-names");
-            raceToAdd.textContent = this.querySelector(".race-title").textContent;
-            winList.appendChild(raceToAdd);
-
-
-            setTimeout(() => {
-                currentCard.parentNode.innerHTML = "";
-                currentCard = null;
-                raceToAdd.style.opacity = 1;
-                doCards();
-            }, 300);
         } else if (diffX < -75) {
             // Swipe left
-            imageCards.forEach(card => {
-                card.style.transform = 'translateX(-150%) rotate(-10deg)';
-                imageContainer.style.opacity = 0;
-            })
+            swipeLeft();
 
-            // Add Race to 'Bin' list
-            const binList = document.querySelector("#bin_list");
-            const raceToAdd = document.createElement('p')
-            raceToAdd.classList.add("race-names");
-            raceToAdd.textContent = this.querySelector(".race-title").textContent;
-            binList.appendChild(raceToAdd);
-
-            setTimeout(() => {
-                currentCard.parentNode.innerHTML = "";
-                currentCard = null;
-                raceToAdd.style.opacity = 1;
-                doCards();
-            }, 300);
         } else {
             currentCard.style.transform = '';
             currentCard = null;
@@ -201,6 +180,49 @@ function cycle() {
         this.classList.remove("disabled");
 
     }, 1000)
+}
+
+function swipeRight() {
+    document.querySelectorAll('.race-block').forEach(block => {
+        block.style.transform = 'translateX(150%) rotate(10deg)';
+        imageContainer.style.opacity = 0;
+    })
+
+    // Add Race to 'Win' list
+    const winList = document.querySelector("#win_list");
+    const raceToAdd = document.createElement('p')
+    raceToAdd.classList.add("race-names");
+    raceToAdd.textContent = document.querySelector(".race-title").textContent;
+    winList.appendChild(raceToAdd);
+
+
+    setTimeout(() => {
+        document.querySelector("#image-container").innerHTML = "";
+        currentCard = null;
+        raceToAdd.style.opacity = 1;
+        doCards();
+    }, 300);
+}
+
+function swipeLeft() {
+    document.querySelectorAll('.race-block').forEach(block => {
+        block.style.transform = 'translateX(-150%) rotate(-10deg)';
+        imageContainer.style.opacity = 0;
+    })
+
+    // Add Race to 'Bin' list
+    const binList = document.querySelector("#bin_list");
+    const raceToAdd = document.createElement('p')
+    raceToAdd.classList.add("race-names");
+    raceToAdd.textContent = document.querySelector(".race-title").textContent;
+    binList.appendChild(raceToAdd);
+
+    setTimeout(() => {
+        document.querySelector("#image-container").innerHTML = "";
+        currentCard = null;
+        raceToAdd.style.opacity = 1;
+        doCards();
+    }, 300);
 }
 
 function getAverageColour(img) {
