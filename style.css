@@ -68,7 +68,11 @@ h1,
 @media (max-width: 576px) {
     .race-block {
         max-width: 100%;
-        max-height: 75vh;
+        max-height: 70vh;
         /* max-height: fit-content; */
+    }
+
+    #swap_btn {
+        font-size: xx-large;
     }
 }

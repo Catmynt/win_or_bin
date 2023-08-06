@@ -23,6 +23,7 @@ const init = async () => {
     const swap_btn = document.querySelector("#swap_btn");
     swap_btn.addEventListener("click", cycle);
 
+    // Setup Cards
     await doCards();
 
     console.log("Setup should be complete");
@@ -31,10 +32,15 @@ const init = async () => {
 const doCards = async () => {
     imageContainer.style.opacity = 0;
     // Populate the Image-Container with First Race's Cards
-    await populateCards(raceNames[index++]);
+    if (index < raceNames.length) {
+        await populateCards(raceNames[index++]);
 
-    // Add Swipe Functionality to Cards
-    await initCards();
+        // Add Swipe Functionality to Cards
+        await initCards();
+    }
+    else {
+        console.log("All races seen");
+    }
 }
 
 const getRaceData = async () => {
@@ -47,8 +53,6 @@ const getRaceData = async () => {
 const populateCards = async (raceName) => {
     // Adds Cards from Next Race in List to image-container
     const container = document.querySelector("#image-container")
-
-    console.log(`this is the race name: ${raceName}`)
 
     const imgs = raceData[raceName]
 
@@ -276,8 +280,5 @@ function getAverageColour(img) {
     return { r: r, g: g, b: b };
 }
 
-
-
 // End of Functions
-
 init();
