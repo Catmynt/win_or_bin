@@ -7,10 +7,14 @@ Goals:
 - Allow new D&D players to pick a race for their D&D character based on aesthetics and the unique features of each race.
 - Make it fun and easy to compare and contrast the many races that are available.
 
-V0.1
+How to Use:
+- Swipe Right by Clicking and Dragging (or swipe if on mobile) the image to the right of the screen, where it will be added to your Win list
+– Similarly, swipe Left to add the current D&D race to your Bin list
+– If lit up and active, click / tap the yellow arrow button to view other pictures of the current D&D race
+– The 'Win' and 'Bin' buttons may also be clicked to add the current D&D race to the respective list (desktop only)
+
+V0.2
 Many features still to be added, including
-- Win/Bin Button Functionality
 - A back button to return to the previous race for reconsideration
-- Support for multiple images of a single race, and an animation to switch between them.
-- Mobile Support
-— Support for race information overlaid on each image.
+– Improved results screen(s)
+– Coloured overlays to better visually indicate which swipe direction is win/bin (especially helpful on mobile)

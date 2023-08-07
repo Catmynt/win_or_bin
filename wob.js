@@ -40,6 +40,16 @@ const doCards = async () => {
     }
     else {
         console.log("All races seen");
+
+        // Placeholder results screen; to be improved later
+        imageContainer.parentNode.classList.remove("col-12", "col-md-6");
+        imageContainer.parentNode.classList.add("col-1");
+
+        const winList = document.querySelector("#win_list");
+        const binList = document.querySelector("#bin_list");
+        winList.classList.remove("d-none");
+        binList.classList.remove("d-none");
+        binList.classList.add("mb-3")
     }
 }
 
